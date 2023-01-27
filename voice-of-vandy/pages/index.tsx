@@ -1,18 +1,23 @@
+import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
-import { Inter } from '@next/font/google'
 import styles from '@/styles/Home.module.css'
+import Sidebar from '@/components/Sidebar'
 
-const inter = Inter({ subsets: ['latin'] })
 
-export default function Home() {
+const Home: NextPage = () => {
   return (
-    <>
+    <div className="">
       <Head>
         <title>Voice of Vandy</title>
       </Head>
-      
-      <h1>Hello World</h1>
-    </>
+
+      <main>
+        <Sidebar/>
+        
+      </main>
+    </div>
   )
 }
+
+export default Home
