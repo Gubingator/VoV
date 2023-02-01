@@ -1,8 +1,27 @@
-# VoV
-Voice of Vandy
+# Next.js + Tailwind CSS Example
 
-The anonymous social media webapp, codenamed "Voice of Vandy", is a platform that allows users to share their thoughts, opinions, and experiences with others without the pressure of revealing their identity. The app is similar to Twitter, with a focus on voice tweets as the main form of content. Users can record and post short audio clips, which can be up to 60 seconds in length, and share them with the community. 
+This example shows how to use [Tailwind CSS](https://tailwindcss.com/) [(v3.2)](https://tailwindcss.com/blog/tailwindcss-v3-2) with Next.js. It follows the steps outlined in the official [Tailwind docs](https://tailwindcss.com/docs/guides/nextjs).
 
-Besides this feature, users can also post text messages publicly and message other users privately like most other social media apps. The app is designed to provide a safe space for individuals to express themselves without fear of backlash or judgment. One of the key features of "Voice of Vandy" is the ability for users to remain anonymous. They can create a username and profile picture, but their true identity is never revealed. This allows for a more open and honest conversation, as users are not constrained by their real-world identities. 
+## Deploy your own
 
-Additionally, the app has a robust moderation system in place to ensure that all content is appropriate and respectful. This will allow for us to prevent people abusing the platform by spreading hateful and/or inflammatory speech. We will likely use the MERN (MongoDB, Express, React, Node) stack to build this application. "Voice of Vandy" is the perfect platform for anyone looking to share their voice and connect with like-minded individuals in a safe and anonymous environment. 
+Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example) or preview live with [StackBlitz](https://stackblitz.com/github/vercel/next.js/tree/canary/examples/with-tailwindcss)
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-tailwindcss&project-name=with-tailwindcss&repository-name=with-tailwindcss)
+
+## How to use
+
+Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init), [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/), or [pnpm](https://pnpm.io) to bootstrap the example:
+
+```bash
+npx create-next-app --example with-tailwindcss with-tailwindcss-app
+```
+
+```bash
+yarn create next-app --example with-tailwindcss with-tailwindcss-app
+```
+
+```bash
+pnpm create next-app --example with-tailwindcss with-tailwindcss-app
+```
+
+Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
