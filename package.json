@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "next-auth": "^4.19.1",
+    "save": "^2.9.0"
+  }
+}

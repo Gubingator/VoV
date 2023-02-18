@@ -5,6 +5,7 @@ import styles from '@/styles/Home.module.css'
 import Sidebar from '@/components/Sidebar'
 import Feed from '@/components/Feed'
 import Navbar from '@/components/Navbar'
+import Widget from '@/components/Widget'
 
 
 const Home: NextPage = () => {
@@ -20,7 +21,7 @@ const Home: NextPage = () => {
         <Sidebar/>
         <Feed/>
 
-        
+        <Widget/>
       </main>
     </div>
   )
