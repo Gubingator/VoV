@@ -8,6 +8,7 @@ import Navbar from '@/components/Navbar'
 import Widget from '@/components/Widget'
 import { fetchTweets } from '@/utils/fetchTweets'
 import { Tweet } from '@/typings'
+import { Toaster } from 'react-hot-toast'
 
 interface Props{
   tweets: Tweet[]
@@ -21,6 +22,8 @@ const Home = ({ tweets }: Props) => {
       <Head>
         <title>Voice of Vandy</title>
       </Head>
+
+      <div><Toaster/></div>
 
       <Navbar/>
 
