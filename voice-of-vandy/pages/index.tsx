@@ -1,7 +1,5 @@
 import type { GetServerSideProps, NextPage } from 'next'
 import Head from 'next/head'
-import Image from 'next/image'
-import styles from '@/styles/Home.module.css'
 import Sidebar from '@/components/Sidebar'
 import Feed from '@/components/Feed'
 import Navbar from '@/components/Navbar'
@@ -9,6 +7,7 @@ import Widget from '@/components/Widget'
 import { fetchTweets } from '@/utils/fetchTweets'
 import { Tweet } from '@/typings'
 import { Toaster } from 'react-hot-toast'
+import { useSession } from 'next-auth/react'
 
 interface Props{
   tweets: Tweet[]
@@ -16,7 +15,7 @@ interface Props{
 
 const Home = ({ tweets }: Props) => {
   console.log({tweets})
-
+  
   return (
     <div className="mx-auto max-h-screen overflow-hidden lg:max-w-6xl bg-black">
       <Head>
@@ -33,6 +32,7 @@ const Home = ({ tweets }: Props) => {
 
         <Widget/>
       </main>
+
     </div>
   )
 }

@@ -1,10 +1,50 @@
-import React, { useState } from 'react'
+import { TweetBody } from '@/typings'
+import { fetchTweets } from '@/utils/fetchTweets'
+import { useSession } from 'next-auth/react'
+import React, { Dispatch, SetStateAction, useState } from 'react'
+import { MouseEvent } from 'react'
+import { toast } from 'react-hot-toast'
+import Tweet from './Tweet'
 
-
-function Tweetbox() {
+interface Props {
+    setTweets: Dispatch<SetStateAction<Tweet[]>>
+}
+function Tweetbox({ setTweets }: Props) {
     // Using states to dispable the button if nothing is typed in the box.
     const [input, setInput] = useState<string>('')
+    const { data: session } = useSession()
 
+    const postTweet = async () => {
+        const tweetInfo: TweetBody = {
+            text: input,
+            username: 'Anonymous User',
+            profileImg: 'https://cdn2.iconfinder.com/data/icons/business-hr-and-recruitment/100/account_blank_face_dummy_human_mannequin_profile_user_-512.png',
+            //audio: input, // need to record audio
+        }
+
+        const result = await fetch(`/api/addTweet`, {
+            body: JSON.stringify(tweetInfo),
+            method: 'POST',
+        })
+
+        console.log(result)
+        const json = await result.json();
+
+        const newTweets = await fetchTweets();
+        setTweets(newTweets)
+    
+        toast('Tweet Posted!')
+
+        return json
+    }
+
+    const handleSubmit = (e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
+        e.preventDefault();
+
+        postTweet();
+
+        setInput('');
+    }
 
   return (
 
@@ -24,15 +64,17 @@ function Tweetbox() {
 
                 <div className='flex iterms-center'>
 
-                    <button className='rounded-full px-5 py-2 font-bold text-white bg-FlatGold'>
+                    <button className='rounded-full px-4 py-2 font-bold text-white bg-FlatGold'>
                         <img className='inline h-6 w-6 rounded-full object-rover' 
                             src='https://cdn4.iconfinder.com/data/icons/social-messaging-ui-coloricon-1/21/56-512.png' alt='' />
                         Record!
                     </button>
 
                     <button 
-                    // disable button if no inpu
-                    disabled={!input}
+                    onClick={handleSubmit}
+
+                    // disable button if no input or not logged in
+                    disabled={!input || !session}
                     className='rounded-full px-5 py-2 font-bold text-white bg-FlatGold disabled:opacity-40
                     cursor-pointer transition-transform duration-125 ease-out hover:scale-125'>
                         Voice it 

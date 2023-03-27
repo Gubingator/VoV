@@ -4,7 +4,7 @@ export interface Tweet extends TweetBody{
     _id: string
     _createdAt: string
     _updatedAt: string
-    _rev:string
+    _rev: string
     _type: 'tweet'
     blockTweet: boolean
 }
@@ -13,15 +13,16 @@ export type TweetBody = {
     text: string
     username: string
     profileImg: string 
-    audio?: file        // trying this for audio
+    audio?: string        // trying this for audio for file
 }
 
 export type CommentBody = {
     comment: string
     tweetId: string
     username: string
-    profileImg: string 
-    audio?: file        // trying this for audio
+    profileImg: string
+    image?: string 
+    // audio?: file        // trying this for audio
 }
 
 export interface Comment extends CommentBody{

@@ -29,7 +29,7 @@ export default defineType({
     defineField({
       name: 'audio',
       title: 'Tweet Audio',
-      type: 'file',
+      type: 'string', // or file? 
     }),
   ],
 

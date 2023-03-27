@@ -13,7 +13,7 @@ const feedQuery = groq`
 `
 
 type Data = {
-  tweet: Tweet[] // custome type tweet array
+  tweets: Tweet[] // custome type tweet array
 }
 
 export default async function handler(

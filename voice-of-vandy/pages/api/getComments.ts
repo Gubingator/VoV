@@ -9,12 +9,11 @@ const commentQuery = groq`
     *[_type == "comment" && references(*[_type== 'tweet' && _id == $tweetId]._id)] {
         _id,
         ...
-    } | order(_created_At desc)
+    } | order(_createdAt desc)
 `
 
-type Data = {
-  tweet: Comment[] // custome type Comment array
-}
+type Data = Comment[] // custome type Comment array
+
 
 export default async function handler(
   req: NextApiRequest,

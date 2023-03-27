@@ -20,11 +20,19 @@ export default defineType({
       title: 'Profile Image',
       type: 'string', // or image? - doesnt seem to work
     }),
-    defineField({
-      name: 'audio',
-      title: 'Comment Audio',
-      type: 'file',
-    }),
+
+    // for comments 
+    
+    // defineField({
+    //   name: 'image',
+    //   title: 'Comment image',
+    //   type: 'string',
+    // }),
+    // defineField({
+    //   name: 'audio',
+    //   title: 'Comment Audio',
+    //   type: 'file',
+    // }),
   
     defineField({
       name: 'tweet',
