@@ -1,15 +1,14 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-import {createClient, groq} from 'next-sanity'
 import { sanityClient } from '../../sanity'
 import { Tweet } from '../../typings'
+import { groq } from 'next-sanity'
 
-// groq is like sanity's query language
 const feedQuery = groq`
-    *[_type == "tweet" && !blockTweet] {
+    *[_type == 'tweet' && !blockTweet]{
         _id,
         ...
-    } | order(_created_At desc)
+    } | order(_createdAt desc)
 `
 
 type Data = {

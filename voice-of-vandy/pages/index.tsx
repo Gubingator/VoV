@@ -20,13 +20,14 @@ const Home = ({ tweets }: Props) => {
     <div className="mx-auto max-h-screen overflow-hidden lg:max-w-6xl bg-black">
       <Head>
         <title>Voice of Vandy</title>
+        <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div><Toaster/></div>
+      <Toaster/>
 
       <Navbar/>
 
-      <main className= "grid grid-cols-9">
+      <main className= "grid grid-cols-10">
         <Sidebar/>
         <Feed tweets={tweets}/>
 

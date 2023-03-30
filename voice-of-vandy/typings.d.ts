@@ -10,19 +10,10 @@ export interface Tweet extends TweetBody{
 }
 
 export type TweetBody = {
-    text: string
-    username: string
-    profileImg: string 
-    audio?: string        // trying this for audio for file
-}
-
-export type CommentBody = {
-    comment: string
-    tweetId: string
-    username: string
-    profileImg: string
-    image?: string 
-    // audio?: file        // trying this for audio
+    text: string,
+    username: string,
+    profileImg: string,
+    image?:string
 }
 
 export interface Comment extends CommentBody{
@@ -36,4 +27,11 @@ export interface Comment extends CommentBody{
         _ref: string
         _type: 'reference'
     }
+}
+
+export type CommentBody = {
+    comment: string,
+    tweetId: string,
+    username: string,
+    profileImg: string,
 }

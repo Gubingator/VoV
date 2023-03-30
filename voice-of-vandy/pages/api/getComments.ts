@@ -1,12 +1,12 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import { Comment } from '@/typings'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import {groq} from 'next-sanity'
 import { sanityClient } from '../../sanity'
-import { Comment } from '../../typings'
 
 // groq is like sanity's query language
 const commentQuery = groq`
-    *[_type == "comment" && references(*[_type== 'tweet' && _id == $tweetId]._id)] {
+    *[_type == 'comment' && references(*[_type=='tweet' && _id==$tweetId]._id)]{
         _id,
         ...
     } | order(_createdAt desc)

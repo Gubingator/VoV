@@ -1,91 +1,139 @@
-import { TweetBody } from '@/typings'
-import { fetchTweets } from '@/utils/fetchTweets'
+import { 
+    CalendarIcon,
+    EmojiHappyIcon,
+    LocationMarkerIcon,
+    PhotographIcon, 
+    SearchCircleIcon 
+} from '@heroicons/react/outline'
 import { useSession } from 'next-auth/react'
-import React, { Dispatch, SetStateAction, useState } from 'react'
-import { MouseEvent } from 'react'
-import { toast } from 'react-hot-toast'
-import Tweet from './Tweet'
+import React, { Dispatch, SetStateAction, useRef, useState } from 'react'
+import toast from 'react-hot-toast'
+import  { Tweet, TweetBody } from '../typings'
+import { fetchTweets } from '../utils/fetchTweets'
 
 interface Props {
     setTweets: Dispatch<SetStateAction<Tweet[]>>
 }
-function Tweetbox({ setTweets }: Props) {
-    // Using states to dispable the button if nothing is typed in the box.
+
+const TweetBox = ({ setTweets }: Props) => {
+
     const [input, setInput] = useState<string>('')
     const { data: session } = useSession()
+    const [imageUrlBoxIsOpen, setImageUrlBoxIsOpen] = useState<boolean>(false)
+    const [image, setImage] = useState<string>('')
+    const imageInputRef = useRef<HTMLInputElement>(null)
+
+    const addImageToTweet = (e: React.MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
+        e.preventDefault();
+
+        if(!imageInputRef.current?.value) return;
+
+        setImage(imageInputRef.current.value);
+        imageInputRef.current.value = '';
+        setImageUrlBoxIsOpen(false);
+    }
 
     const postTweet = async () => {
         const tweetInfo: TweetBody = {
             text: input,
-            username: 'Anonymous User',
-            profileImg: 'https://cdn2.iconfinder.com/data/icons/business-hr-and-recruitment/100/account_blank_face_dummy_human_mannequin_profile_user_-512.png',
-            //audio: input, // need to record audio
+            username: session?.user?.name || 'Unknown User',
+            profileImg: session?.user?.image || 'https://links.papareact.com/gll',
+            image: image
         }
 
         const result = await fetch(`/api/addTweet`, {
             body: JSON.stringify(tweetInfo),
-            method: 'POST',
+            method: 'POST'
         })
 
-        console.log(result)
-        const json = await result.json();
+        const json = await result.json()
 
-        const newTweets = await fetchTweets();
+        const newTweets = await fetchTweets()
         setTweets(newTweets)
-    
-        toast('Tweet Posted!')
+
+        toast('Tweet Posted', {
+            icon: '🎉',
+        })
 
         return json
     }
 
-    const handleSubmit = (e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
+    const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
 
         postTweet();
 
-        setInput('');
+        setInput('')
+        setImage('')
+        setImageUrlBoxIsOpen(false)
     }
 
   return (
+    <div className="flex space-x-2 p-5">
+        
+        <img 
+            className="h-14 w-14 mt-4 rounded-full object-cover"
+            src={ session?.user?.image || 'https://links.papareact.com/gll'} 
+            alt="" 
+        />
 
-    <div className='flex space-x-2 p-5'>
-        <img className='h-14 w-14 rounded-full object-rover mt-4'
-        src='https://cdn2.iconfinder.com/data/icons/business-hr-and-recruitment/100/account_blank_face_dummy_human_mannequin_profile_user_-512.png' alt='' />
-    
-    
-        <div className='flex flex-1 items-center pl-2'>
-            <form className='flex flex-1 flex-col'>
+        <div className="flex flex-1 items-center pl-2">
+            <form className="flex flex-1 flex-col">
                 <input 
-                value={input}
-                onChange={e => setInput(e.target.value)}
-                type = "text" 
-                placeholder="Voice something..." 
-                className='h-24 w-full text-xl p-3 rounded-lg outline-none placeholder:text-xl'/>
-
-                <div className='flex iterms-center'>
-
-                    <button className='rounded-full px-4 py-2 font-bold text-white bg-FlatGold'>
-                        <img className='inline h-6 w-6 rounded-full object-rover' 
-                            src='https://cdn4.iconfinder.com/data/icons/social-messaging-ui-coloricon-1/21/56-512.png' alt='' />
-                        Record!
-                    </button>
-
+                    type="text" 
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    placeholder="What's happening?" 
+                    className="h-24 w-full text-xl outline-none placeholder:text-xl" 
+                />
+                <div className="flex items-center">
+                    <div className="flex flex-1 space-x-2 text-twitter">
+                        <PhotographIcon 
+                            onClick={ () => setImageUrlBoxIsOpen(!imageUrlBoxIsOpen) }
+                            className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150" 
+                        />
+                        <SearchCircleIcon className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150" />
+                        <EmojiHappyIcon className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150" />
+                        <CalendarIcon className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150" />
+                        <LocationMarkerIcon className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150" />
+                    </div>
                     <button 
-                    onClick={handleSubmit}
-
-                    // disable button if no input or not logged in
-                    disabled={!input || !session}
-                    className='rounded-full px-5 py-2 font-bold text-white bg-FlatGold disabled:opacity-40
-                    cursor-pointer transition-transform duration-125 ease-out hover:scale-125'>
-                        Voice it 
+                        onClick={handleSubmit}
+                        disabled={!input || !session}
+                        className="rounded-full bg-twitter px-5 py-2 font-bold text-white disabled:opacity-40"
+                    >
+                        Voice It!
                     </button>
                 </div>
+
+                {/* Image adding form  */}
+                { imageUrlBoxIsOpen && (
+                    <form className="rounded-lg mt-5 flex bg-twitter/80 py-2 px-4">
+                        <input 
+                            ref={imageInputRef}
+                            type="text" 
+                            className="flex-1 bg-transparent p-2 text-white outline-none placeholder:text-white"
+                            placeholder="Enter Image URL..." 
+                        />
+                        <button type="submit" onClick={addImageToTweet} className="font-bold text-white">Add Image</button>
+                    </form>
+                )}
+
+                {/* Image show after adding */}
+                { image && (
+                    <img 
+                        className="mt-10 h-40 w-full rounded-xl object-contain shadow-lg"
+                        src={image} 
+                        alt="" 
+                    />
+                )}
+
             </form>
         </div>
-    </div>
 
-    
+
+    </div>
   )
 }
 
-export default Tweetbox
+export default TweetBox

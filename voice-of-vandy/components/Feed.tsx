@@ -4,7 +4,7 @@ import {RefreshIcon} from '@heroicons/react/outline'
 import React, { useState } from 'react'
 import toast from 'react-hot-toast'
 import TweetComponent from './Tweet' // renamed to resolve same name comflict
-import Tweetbox from './Tweetbox'
+import TweetBox from './TweetBox'
 
 interface Props{
   tweets: Tweet[]
@@ -28,26 +28,32 @@ function Feed({ tweets: tweetsProp }: Props) {
     })
   }
 
+
+
   return (
-    <div className = "col-span-7 max-h-screen overflow-scroll lg:col-span-5 border-x"> 
-        <div className='flex items-center justify-between'>
-            <h1 className='p-5 pb-0 text-xl font-bold'>Home</h1>
+    <div className="col-span-7 max-h-screen overflow-scroll scrollbar-hide lg:col-span-5 border-x">
+        
+        {/* RefreshIcon */}
+        <div className="flex items-center justify-between">
+            <h1 className="p-5 pb-0 text-xl font-bold">Home</h1>
             <RefreshIcon 
-            onClick={handleRefresh} 
-            className='mr-5 mt-5 h-8 w-8 cursor-pointer text-FlatGold 
-            transition-all duration-500 ease-out hover:rotate-180 active:scale-125' />
+              onClick={handleRefresh} 
+              className="mr-5 mt-5 h-8 w-8 cursor-pointer text-twitter transition-all duration-500 ease-out hover:rotate-180 active:scale-125" 
+            />
         </div>
 
-        <div className='flex items-center justify-between'>
-            <Tweetbox setTweets={setTweets}/>
+        {/* Tweetbox */}
+        <div>
+            <TweetBox setTweets={setTweets} />
         </div>
 
-      {/* flex overflow-y-auto */}
-      <div> 
-        {tweets.map((tweet) => (
-          <TweetComponent key={tweet._id} tweet={tweet}/>
-        ))}
-      </div>
+        {/* Feed */}
+        <div>
+          { tweets.map(tweet => (
+            <TweetComponent key={tweet._id} tweet={tweet} />
+          ))}
+        </div>
+
 
     </div>
   )

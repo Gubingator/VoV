@@ -5,6 +5,7 @@ import{
   HomeIcon,
 } from '@heroicons/react/outline'
 import SidebarRow from './SidebarRow'
+// import Logo from '../public/images/logo.png'
 import { signIn, signOut, useSession } from 'next-auth/react'
 
 function Sidebar() {
@@ -23,20 +24,6 @@ function Sidebar() {
       onClick={session ? signOut : signIn } 
       Icon={HomeIcon} 
       title = {session ? 'Sign out': "Sign In"} />
-
-      {/* {session ? (
-            <div 
-                onClick={() => signOut()}> 
-                <SidebarRow Icon={HomeIcon} title = "Sign Out" />
-
-            </div>
-
-        ) : (
-            <div 
-                onClick={() => signIn()}> 
-                <SidebarRow Icon={HomeIcon} title = "Sign In" />
-            </div>
-        )} */}
 
     </div>
   ) 

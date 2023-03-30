@@ -1,48 +1,32 @@
-import {defineField, defineType} from 'sanity'
-
-export default defineType({
+export default {
   name: 'comment',
   title: 'Comment',
   type: 'document',
   fields: [
-    defineField({
+    {
       name: 'comment',
       title: 'Comment',
       type: 'string',
-    }),
-    defineField({
+    },
+    {
       name: 'username',
       title: 'Username',
       type: 'string',
-    }),
-    defineField({
+    },
+    {
       name: 'profileImg',
       title: 'Profile Image',
-      type: 'string', // or image? - doesnt seem to work
-    }),
-
-    // for comments 
-    
-    // defineField({
-    //   name: 'image',
-    //   title: 'Comment image',
-    //   type: 'string',
-    // }),
-    // defineField({
-    //   name: 'audio',
-    //   title: 'Comment Audio',
-    //   type: 'file',
-    // }),
-  
-    defineField({
+      type: 'string',
+    },
+    {
       name: 'tweet',
       title: 'Tweet',
-      description: 'Reference the Tweet the comment is associated to:',
+      description: 'Reference the Tweet comment is associated to:',
       type: 'reference',
       to: {
-        type:'tweet'
+        type: 'tweet',
       }
-    }),
-
+    },
   ],
-})
+  
+}

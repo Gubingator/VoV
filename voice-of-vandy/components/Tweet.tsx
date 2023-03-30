@@ -23,8 +23,8 @@ function Tweet({ tweet }: Props) {
   const { data: session } = useSession()
 
   const refreshComments = async () => {
-    const comments: Comment[] = await fetchComments(tweet._id)
-    setComments(comments);
+    const dataComments: Comment[] = await fetchComments(tweet._id)
+    setComments(dataComments)
   }
 
   useEffect(() => {
@@ -37,15 +37,15 @@ function Tweet({ tweet }: Props) {
     const commentToast = toast.loading('Posting Comment...')
 
     // Comment logic
-    const comment: CommentBody = {
+    const commentInfo: CommentBody = {
       comment: input,
       tweetId: tweet._id,
-      username: session?.user?.name || 'Anonymous User', // add session?.user?.name || later
-      profileImg: 'https://links.papareact.com/gll', // same here
+      username: session?.user?.name || 'Unknown User',
+      profileImg: session?.user?.image || 'https://links.papareact.com/gll',
     }
 
     const result = await fetch(`/api/addComment`, {
-      body: JSON.stringify(comment),
+      body: JSON.stringify(commentInfo),
       method: 'POST',
     })
 
@@ -86,13 +86,13 @@ function Tweet({ tweet }: Props) {
 
           <p className="pt-1">{tweet.text}</p>
 
-          {/* {tweet.image && (
+          {tweet.image && (
             <img
               src={tweet.image}
               className="m-5 ml-0 mb-1 max-h-60  rounded-lg object-cover shadow-sm"
               alt=""
             />
-          )} */}
+          )}
 
         </div>
       </div>
@@ -120,13 +120,13 @@ function Tweet({ tweet }: Props) {
           <input
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            className="flex-1 rounded-lg bg-gray-600 p-2 outline-none"
+            className="flex-1 rounded-lg bg-gray-100 p-2 outline-none"
             type="text"
             placeholder="Write a comment..."
           />
           <button
             disabled={!input}
-            className="text-twitter disabled:text-gray-400"
+            className="text-twitter disabled:text-gray-200"
             type="submit"
           >
             Post
