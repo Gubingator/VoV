@@ -36,7 +36,8 @@ export default async function handler(
     const result = await fetch(apiEndpoint, {
         headers: {
             'content-type': 'application/json',
-            Authorization: `Bearer ${process.env.SANITY_API_TOKEN}`,
+            Authorization: `Bearer ${process.env.SANITY_API_TOKEN}`, 
+            // New Editor SANITY_API_TOKEN Works!! Problem was the API Token permission in sanity.io was not set to editor
         },
         body: JSON.stringify(mutations),
         method: 'POST'
