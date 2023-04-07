@@ -29,6 +29,15 @@ export default {
       title: 'Tweet image',
       type: 'string',
     },
-    
+    {
+      name: 'audio',
+      title: 'Tweet audio file',
+      type: 'file',
+    },
+    {
+      name: 'upvotes',
+      title: 'The # of people upvoted this tweet',
+      type: 'number'
+    },
   ],
 }

@@ -10,7 +10,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-    const data: TweetBody = JSON.parse(req.body) // maybe the issue here
+    const data: TweetBody = JSON.parse(req.body) 
     console.log("\\\\\\\\\\\\\\\\")
     console.log(data)
 
@@ -23,7 +23,8 @@ export default async function handler(
                     username: data.username,
                     blockTweet: false,
                     profileImg: data.profileImg,
-                    image: data.image
+                    image: data.image,
+                    audio: data.audio,
                 }
             }
         ]
@@ -40,12 +41,12 @@ export default async function handler(
             // New Editor SANITY_API_TOKEN Works!! Problem was the API Token permission in sanity.io was not set to editor
         },
         body: JSON.stringify(mutations),
-        method: 'POST'
+        method: 'POST',
     })
 
     const json = await result.json()
 
-    console.log(json) // showing mutations errpr
+    console.log(json)
 
     res.status(200).json({ message: 'Added Tweet!' })
 }

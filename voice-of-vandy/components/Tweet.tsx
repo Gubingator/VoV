@@ -10,6 +10,8 @@ import {
 import { useSession } from 'next-auth/react'
 import toast from 'react-hot-toast'
 import { fetchComments } from '../utils/fetchComments'
+import { sanityClient } from '../sanity'
+import { groq } from 'next-sanity'
 
 interface Props {
   tweet: Tweet
@@ -21,6 +23,28 @@ function Tweet({ tweet }: Props) {
   const [comments, setComments] = useState<Comment[]>([])
 
   const { data: session } = useSession()
+
+  const [isUpvoted, setIsUpvoted] = useState(false);
+
+  const handleClick = async () => {
+    if (isUpvoted) {
+      setIsUpvoted(false);
+      tweet.upvotes -= 1;
+    } else {
+      setIsUpvoted(true);
+      tweet.upvotes += 1;
+    }
+  }
+
+// Help From: https://stackoverflow.com/questions/64356284/how-to-download-file-from-sanity-via-http
+  const getUrlFromId = () => { // do not be async! 
+    // Example ref: file-207fd9951e759130053d37cf0a558ffe84ddd1c9-mp3
+    // We don't need the first part (_file), unless we're using the same function for files and images
+    // console.log(tweet.audio?.asset._ref)
+    const [_file, id, extension] = tweet.audio?.asset._ref.split('-');
+    return `https://cdn.sanity.io/files/3gw0ul7p/production/${id}.${extension}`
+  }
+
 
   const refreshComments = async () => {
     const dataComments: Comment[] = await fetchComments(tweet._id)
@@ -75,7 +99,8 @@ function Tweet({ tweet }: Props) {
           <div className="flex items-center space-x-1">
             <p className="mr-1 font-bold">{tweet.username}</p>
             <p className="hidden text-sm text-gray-500 sm:inline">
-              @{tweet.username.replace(/\s+/g, '').toLowerCase()} ·
+              {/* @{tweet.username.replace(/\s+/g, '').toLowerCase()} · */}
+              @{"anonymous"} ·
             </p>
 
             <TimeAgo
@@ -85,6 +110,12 @@ function Tweet({ tweet }: Props) {
           </div>
 
           <p className="pt-1">{tweet.text}</p>
+
+          {tweet.audio && (
+            <audio controls>
+              <source src= {getUrlFromId()} type="audio/mpeg"/>
+            </audio>
+          )}
 
           {tweet.image && (
             <img
@@ -107,7 +138,12 @@ function Tweet({ tweet }: Props) {
         </div>
         <div className="flex cursor-pointer items-center space-x-3 text-gray-400">
           <ArrowUpIcon className="h-5 w-5" />
-          <p>12</p>
+
+          <button onClick={handleClick}>
+            {isUpvoted ? 'Un-upvote' : 'Upvote'}
+          </button>
+    
+          <p>{tweet.upvotes}</p>
         </div>
         <div className="flex cursor-pointer items-center space-x-3 text-gray-400">
           <ArrowDownIcon className="h-5 w-5" />
@@ -120,7 +156,7 @@ function Tweet({ tweet }: Props) {
           <input
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            className="flex-1 rounded-lg bg-gray-100 p-2 outline-none"
+            className="flex-1 rounded-lg bg-gray-500 p-2 outline-none"
             type="text"
             placeholder="Write a comment..."
           />

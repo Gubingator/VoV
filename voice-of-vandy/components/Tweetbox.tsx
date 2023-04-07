@@ -1,15 +1,18 @@
 import { 
-    CalendarIcon,
-    EmojiHappyIcon,
-    LocationMarkerIcon,
+    UploadIcon,
     PhotographIcon, 
-    SearchCircleIcon 
+    MicrophoneIcon,
 } from '@heroicons/react/outline'
 import { useSession } from 'next-auth/react'
 import React, { Dispatch, SetStateAction, useRef, useState } from 'react'
 import toast from 'react-hot-toast'
 import  { Tweet, TweetBody } from '../typings'
 import { fetchTweets } from '../utils/fetchTweets'
+
+import { v4 as uuidv4 } from 'uuid'
+import { sanityClient } from '../sanity'
+import tweet from '@/sanity/schemas/tweet'
+import { SanityAssetDocument } from '@sanity/client'
 
 interface Props {
     setTweets: Dispatch<SetStateAction<Tweet[]>>
@@ -23,6 +26,13 @@ const TweetBox = ({ setTweets }: Props) => {
     const [image, setImage] = useState<string>('')
     const imageInputRef = useRef<HTMLInputElement>(null)
 
+    const [initialUpvote, setUpvote] = useState<number>(0)
+    
+    const [uploadBoxIsOpen, setUploadBoxIsOpen] = useState<boolean>(false)
+    const [fileAssets, setFileAssets] = useState<SanityAssetDocument | undefined>()
+    const [wrongFileType, setWrongFileType] = useState(false)
+
+
     const addImageToTweet = (e: React.MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
         e.preventDefault();
 
@@ -32,13 +42,75 @@ const TweetBox = ({ setTweets }: Props) => {
         imageInputRef.current.value = '';
         setImageUrlBoxIsOpen(false);
     }
+    //const addFileToTweet = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const addFileToTweet = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        e.preventDefault();
+        
+        if (!e.target.files) {
+            return
+        }
+
+        const selectedFile = e.target.files[0];
+
+        console.log("selectedFile");
+        console.log(selectedFile);
+        console.log(selectedFile.type);
+        console.log(selectedFile.name);
+
+        // sanityClient.assets.upload('file', selectedFile, { contentType: selectedFile.type, filename: selectedFile.name })
+
+        sanityClient.assets.upload('file', selectedFile)
+        .then((data) => {
+            console.log("00000000000000000000000");
+            console.log(data)
+            setFileAssets(data);
+        } 
+        ).catch((error) => {
+          console.log('Upload failed:', error.message);
+        });
+        
+        console.log("fileAssets");
+        console.log(fileAssets?._id);
+
+        // setUploadBoxIsOpen(false)
+
+        
+        // sanityClient.assets
+        // .upload('file', fileToUpload)
+        // .then((document) => {
+        //     console.log("---------------------")
+        //     // console.log(document._id)
+        //     setFileAssets({ document}
+        //     );
+        
+        // })
+        // .catch((error) => {
+        //   console.log('Upload failed:', error.message);
+        // });
+
+        // const doc = {
+        //       _type: 'file',
+        //       asset: {
+        //         _type: 'reference',
+        //         _ref: document?._id,
+        //       },
+        //   };
+
+    }
+
 
     const postTweet = async () => {
         const tweetInfo: TweetBody = {
             text: input,
             username: session?.user?.name || 'Unknown User',
             profileImg: session?.user?.image || 'https://links.papareact.com/gll',
-            image: image
+            image: image,
+            //audio: {_type: 'file', asset: {fileAssets} }, 
+            audio: {
+                _id: fileAssets?._id,
+                url: fileAssets?.path,
+            },
+            upvotes: 0,
         }
 
         const result = await fetch(`/api/addTweet`, {
@@ -58,7 +130,7 @@ const TweetBox = ({ setTweets }: Props) => {
         return json
     }
 
-    const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
 
         postTweet();
@@ -66,6 +138,13 @@ const TweetBox = ({ setTweets }: Props) => {
         setInput('')
         setImage('')
         setImageUrlBoxIsOpen(false)
+
+        // setFileAssets(void)
+        setUploadBoxIsOpen(false)
+    }
+
+    function getUrlFromId(): string | undefined {
+        throw new Error('Function not implemented.')
     }
 
   return (
@@ -83,24 +162,28 @@ const TweetBox = ({ setTweets }: Props) => {
                     type="text" 
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
-                    placeholder="What's happening?" 
+                    placeholder="Voice Something..." 
                     className="h-24 w-full text-xl outline-none placeholder:text-xl" 
                 />
                 <div className="flex items-center">
-                    <div className="flex flex-1 space-x-2 text-twitter">
+                    <div className="flex flex-1 space-x-2 text-FlatGold">
                         <PhotographIcon 
                             onClick={ () => setImageUrlBoxIsOpen(!imageUrlBoxIsOpen) }
-                            className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150" 
+                            className="h-7 w-7 cursor-pointer transition-transform duration-150 ease-out hover:scale-150" 
                         />
-                        <SearchCircleIcon className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150" />
-                        <EmojiHappyIcon className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150" />
-                        <CalendarIcon className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150" />
-                        <LocationMarkerIcon className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150" />
+                        <UploadIcon 
+                            className="h-7 w-7 cursor-pointer transition-transform duration-150 ease-out hover:scale-150" 
+                            onClick={ () => setUploadBoxIsOpen(!uploadBoxIsOpen) }
+                        />
+                        <MicrophoneIcon 
+                            className="h-7 w-7 cursor-pointer transition-transform duration-150 ease-out hover:scale-150" 
+                            
+                        />
                     </div>
                     <button 
                         onClick={handleSubmit}
                         disabled={!input || !session}
-                        className="rounded-full bg-twitter px-5 py-2 font-bold text-white disabled:opacity-40"
+                        className="rounded-full bg-MetallicGold px-5 py-2 font-bold text-black disabled:opacity-40"
                     >
                         Voice It!
                     </button>
@@ -108,7 +191,7 @@ const TweetBox = ({ setTweets }: Props) => {
 
                 {/* Image adding form  */}
                 { imageUrlBoxIsOpen && (
-                    <form className="rounded-lg mt-5 flex bg-twitter/80 py-2 px-4">
+                    <form className="rounded-lg mt-5 flex bg-MetallicGold/60 py-2 px-4">
                         <input 
                             ref={imageInputRef}
                             type="text" 
@@ -126,6 +209,25 @@ const TweetBox = ({ setTweets }: Props) => {
                         src={image} 
                         alt="" 
                     />
+                )}
+
+                {/* File adding form  */}
+                { uploadBoxIsOpen && (
+                    <form className="rounded-lg mt-5 flex bg-MetallicGold/60 py-2 px-4">
+                        <input 
+                            type= "file" 
+                            className="flex-1 2 text-white bg-transparent outline-none placeholder:text-white"
+                            onChange={addFileToTweet}
+                        />
+                        {/* <button type="submit" onClick={e => addFileToTweet} className="font-bold text-white">Upload</button> */}
+                    </form>
+                )}
+
+                {/* File show after adding */}
+                { fileAssets && (
+                    <audio controls>
+                        <source src= {getUrlFromId()} type="audio/mpeg"/>
+                    </audio>
                 )}
 
             </form>

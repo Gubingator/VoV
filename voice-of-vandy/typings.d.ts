@@ -13,7 +13,16 @@ export type TweetBody = {
     text: string,
     username: string,
     profileImg: string,
-    image?:string
+    image?: string,
+    audio?: any,
+    // {
+    //     asset: {
+    //       _id: string;
+    //       url: string;
+    //     };
+    //   };
+    fileURL?: string,
+    upvotes: number,
 }
 
 export interface Comment extends CommentBody{
