@@ -30,6 +30,7 @@ function Tweet({ tweet }: Props) {
     if (isUpvoted) {
       setIsUpvoted(false);
       tweet.upvotes -= 1;
+      // Mutate again in sanity 
     } else {
       setIsUpvoted(true);
       tweet.upvotes += 1;
@@ -120,7 +121,7 @@ function Tweet({ tweet }: Props) {
           {tweet.image && (
             <img
               src={tweet.image}
-              className="m-5 ml-0 mb-1 max-h-60  rounded-lg object-cover shadow-sm"
+              className="m-5 ml-0 mb-1 max-h-60 rounded-lg object-cover shadow-sm"
               alt=""
             />
           )}

@@ -25,6 +25,7 @@ export default async function handler(
                     profileImg: data.profileImg,
                     image: data.image,
                     audio: data.audio,
+                    upvotes: data.upvotes
                 }
             }
         ]

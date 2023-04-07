@@ -4,7 +4,7 @@ import {RefreshIcon} from '@heroicons/react/outline'
 import React, { useState } from 'react'
 import toast from 'react-hot-toast'
 import TweetComponent from './Tweet' // renamed to resolve same name comflict
-import TweetBox from './TweetBox'
+import TweetBox from './Tweetbox'
 
 interface Props{
   tweets: Tweet[]
