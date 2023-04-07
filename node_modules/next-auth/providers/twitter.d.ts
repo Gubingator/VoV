@@ -137,3 +137,4 @@ export interface TwitterProfile {
     };
 }
 export default function Twitter<P extends Record<string, any> = TwitterLegacyProfile | TwitterProfile>(options: OAuthUserConfig<P>): OAuthConfig<P>;
+//# sourceMappingURL=twitter.d.ts.map

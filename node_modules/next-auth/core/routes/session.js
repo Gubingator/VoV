@@ -10,7 +10,9 @@ var _utils = require("../lib/utils");
 async function session(params) {
   const {
     options,
-    sessionStore
+    sessionStore,
+    newSession,
+    isUpdate
   } = params;
   const {
     adapter,
@@ -41,23 +43,27 @@ async function session(params) {
       const decodedToken = await jwt.decode({ ...jwt,
         token: sessionToken
       });
-      const newExpires = (0, _utils.fromDate)(sessionMaxAge);
-      const session = {
-        user: {
-          name: decodedToken === null || decodedToken === void 0 ? void 0 : decodedToken.name,
-          email: decodedToken === null || decodedToken === void 0 ? void 0 : decodedToken.email,
-          image: decodedToken === null || decodedToken === void 0 ? void 0 : decodedToken.picture
-        },
-        expires: newExpires.toISOString()
-      };
+      if (!decodedToken) throw new Error("JWT invalid");
       const token = await callbacks.jwt({
-        token: decodedToken
+        token: decodedToken,
+        ...(isUpdate && {
+          trigger: "update"
+        }),
+        session: newSession
       });
-      const newSession = await callbacks.session({
-        session,
+      const newExpires = (0, _utils.fromDate)(sessionMaxAge);
+      const updatedSession = await callbacks.session({
+        session: {
+          user: {
+            name: decodedToken === null || decodedToken === void 0 ? void 0 : decodedToken.name,
+            email: decodedToken === null || decodedToken === void 0 ? void 0 : decodedToken.email,
+            image: decodedToken === null || decodedToken === void 0 ? void 0 : decodedToken.picture
+          },
+          expires: newExpires.toISOString()
+        },
         token
       });
-      response.body = newSession;
+      response.body = updatedSession;
       const newToken = await jwt.encode({ ...jwt,
         token,
         maxAge: options.session.maxAge
@@ -67,7 +73,7 @@ async function session(params) {
       });
       (_response$cookies = response.cookies) === null || _response$cookies === void 0 ? void 0 : _response$cookies.push(...sessionCookies);
       await ((_events$session = events.session) === null || _events$session === void 0 ? void 0 : _events$session.call(events, {
-        session: newSession,
+        session: updatedSession,
         token
       }));
     } catch (error) {
@@ -117,7 +123,11 @@ async function session(params) {
             },
             expires: session.expires.toISOString()
           },
-          user
+          user,
+          newSession,
+          ...(isUpdate ? {
+            trigger: "update"
+          } : {})
         });
         response.body = sessionPayload;
         (_response$cookies3 = response.cookies) === null || _response$cookies3 === void 0 ? void 0 : _response$cookies3.push({

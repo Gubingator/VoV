@@ -106,10 +106,10 @@ const TweetBox = ({ setTweets }: Props) => {
             profileImg: session?.user?.image || 'https://links.papareact.com/gll',
             image: image,
             //audio: {_type: 'file', asset: {fileAssets} }, 
-            audio: {
-                _id: fileAssets?._id,
-                url: fileAssets?.path,
-            },
+            // audio: {
+            //     _id: fileAssets?._id,
+            //     url: fileAssets?.path,
+            // },
             upvotes: 0,
         }
 
@@ -130,7 +130,7 @@ const TweetBox = ({ setTweets }: Props) => {
         return json
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e:any) => {
         e.preventDefault();
 
         postTweet();
