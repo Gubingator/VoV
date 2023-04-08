@@ -9,9 +9,8 @@ import toast from 'react-hot-toast'
 import  { Tweet, TweetBody } from '../typings'
 import { fetchTweets } from '../utils/fetchTweets'
 
-import { v4 as uuidv4 } from 'uuid'
 import { sanityClient } from '../sanity'
-import tweet from '@/sanity/schemas/tweet'
+
 import { SanityAssetDocument } from '@sanity/client'
 
 interface Props {
@@ -130,7 +129,7 @@ const TweetBox = ({ setTweets }: Props) => {
         return json
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: { preventDefault: () => void }) => {
         e.preventDefault();
 
         postTweet();

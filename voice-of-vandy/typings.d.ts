@@ -7,6 +7,12 @@ export interface Tweet extends TweetBody{
     _rev: string
     _type: 'tweet'
     blockTweet: boolean
+    // audio?: {
+    //     asset: {
+    //       _ref: string;
+    //       _types: 'reference';
+    //     };
+    //   };
 }
 
 export type TweetBody = {
@@ -14,14 +20,14 @@ export type TweetBody = {
     username: string,
     profileImg: string,
     image?: string,
-    audio?: any,
+    audio?: 
     // {
     //     asset: {
-    //       _id: string;
-    //       url: string;
+    //       _ref: string;
+    //       _types: 'reference';
     //     };
     //   };
-    fileURL?: string,
+        any,
     upvotes: number,
 }
 
