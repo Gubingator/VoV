@@ -163,7 +163,7 @@ const TweetBox = ({ setTweets }: Props) => {
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     placeholder="Voice Something..." 
-                    className="h-24 w-full text-xl outline-none placeholder:text-xl" 
+                    className="h-24 w-full rounded-md text-xl outline-none placeholder:text-xl p-2 pl-5" 
                 />
                 <div className="flex items-center">
                     <div className="flex flex-1 space-x-2 text-FlatGold">
@@ -183,7 +183,7 @@ const TweetBox = ({ setTweets }: Props) => {
                     <button 
                         onClick={handleSubmit}
                         disabled={!input || !session}
-                        className="rounded-full bg-MetallicGold px-5 py-2 font-bold text-black disabled:opacity-40"
+                        className="rounded-full bg-MetallicGold px-5 py-2 font-bold text-black disabled:opacity-40 mt-1"
                     >
                         Voice It!
                     </button>
