@@ -19,11 +19,14 @@ function Widgets() {
         </div>
 
         {/* Twitter embed */}
-        <TwitterTimelineEmbed
-            sourceType="profile"
-            screenName="VanderbiltU"
-            options={{height: 1000}}
-        />
+        <div className="mt-5">
+          <TwitterTimelineEmbed
+              sourceType="profile"
+              screenName="VanderbiltU"
+              options={{height: 1000}}
+          />
+        </div>
+        
 
     </div>
   )

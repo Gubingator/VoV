@@ -23,7 +23,7 @@ function Sidebar() {
       <SidebarRow 
       onClick={session ? signOut : signIn } 
       Icon={HomeIcon} 
-      title = {session ? 'Sign out': "Sign In"} />
+      title = {session ? 'Sign Out': "Sign In"} />
 
     </div>
   ) 

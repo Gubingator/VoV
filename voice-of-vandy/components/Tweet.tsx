@@ -5,6 +5,7 @@ import {
   ChatAlt2Icon,
   HeartIcon,
   ArrowDownIcon,
+  ThumbUpIcon,
   ArrowUpIcon,
 } from '@heroicons/react/outline'
 import { useSession } from 'next-auth/react'
@@ -128,7 +129,7 @@ function Tweet({ tweet }: Props) {
         </div>
       </div>
 
-      <div className="mt-5 flex justify-between">
+      <div className="mx-5 hidden mt-5 items-center space-x-20 text-gray-100 lg:inline-flex">
         <div
           onClick={(e) => setCommentBoxVisible(!commentBoxVisible)}
           className="flex cursor-pointer items-center space-x-3 text-gray-400"
@@ -137,18 +138,16 @@ function Tweet({ tweet }: Props) {
           <p>{comments.length}</p>
         </div>
         <div className="flex cursor-pointer items-center space-x-3 text-gray-400">
-          <ArrowUpIcon className="h-5 w-5" />
-
           <button onClick={handleClick}>
-            {isUpvoted ? 'Un-upvote' : 'Upvote'}
+            {isUpvoted ? <ThumbUpIcon className="h-5 w-5 text-blue-400" /> : <ThumbUpIcon className="h-5 w-5" />}
           </button>
     
           <p>{tweet.upvotes}</p>
         </div>
-        <div className="flex cursor-pointer items-center space-x-3 text-gray-400">
+        {/* <div className="flex cursor-pointer items-center space-x-3 text-gray-400">
           <ArrowDownIcon className="h-5 w-5" />
           <p>12</p>
-        </div>
+        </div> */}
       </div>
 
       {commentBoxVisible && (
