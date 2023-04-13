@@ -18,12 +18,25 @@ function Sidebar() {
       alt="" />
 
       {/* <SidebarRow Icon={HomeIcon} title = "Home" /> */}
-      <SidebarRow Icon={UserIcon} title = "Profile" />
-      <SidebarRow Icon={ChatIcon} title = "Chats" />
-      <SidebarRow 
-      onClick={session ? signOut : signIn } 
-      Icon={HomeIcon} 
-      title = {session ? 'Sign Out': "Sign In"} />
+      {/* <SidebarRow Icon={UserIcon} title = "Profile" />
+      <SidebarRow Icon={ChatIcon} title = "Chats" /> */}
+
+      <div className="absolute inset-y-60 h-16 w-60">
+        <div className='m-4 h-100 w-60 text-3xl'>
+          <u>Daily Prompt:</u>
+        </div>
+
+        <div className='m-5 h-10 w-40 text-center'>
+        Give us your best SpongeBob impression!
+        </div>
+      </div>
+
+      <div className="absolute bottom-0 left-45 h-16 w-60">
+        <SidebarRow 
+        onClick={session ? signOut : signIn } 
+        Icon={HomeIcon} 
+        title = {session ? 'Sign Out': "Sign In"} />
+      </div>
 
     </div>
   ) 

@@ -101,6 +101,7 @@ const TweetBox = ({ setTweets }: Props) => {
 
     const postTweet = async () => {
         const tweetInfo: TweetBody = {
+            
             text: input,
             username: session?.user?.name || 'Unknown User',
             profileImg: session?.user?.image || 'https://links.papareact.com/gll',
@@ -175,10 +176,10 @@ const TweetBox = ({ setTweets }: Props) => {
                             className="h-7 w-7 cursor-pointer transition-transform duration-150 ease-out hover:scale-150" 
                             onClick={ () => setUploadBoxIsOpen(!uploadBoxIsOpen) }
                         />
-                        <MicrophoneIcon 
+                        {/* <MicrophoneIcon 
                             className="h-7 w-7 cursor-pointer transition-transform duration-150 ease-out hover:scale-150" 
                             
-                        />
+                        /> */}
                     </div>
                     <button 
                         onClick={handleSubmit}
