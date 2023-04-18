@@ -1,5 +1,6 @@
 import { Tweet } from '@/typings'
 import { fetchTweets } from '@/utils/fetchTweets'
+import { fetchComments } from '@/utils/fetchComments'
 import {RefreshIcon} from '@heroicons/react/outline'
 import React, { useState } from 'react'
 import toast from 'react-hot-toast'
@@ -27,8 +28,6 @@ function Feed({ tweets: tweetsProp }: Props) {
       id: refreshToast
     })
   }
-
-
 
   return (
     <div className="col-span-7 max-h-screen overflow-scroll scrollbar-hide lg:col-span-5 border-x">

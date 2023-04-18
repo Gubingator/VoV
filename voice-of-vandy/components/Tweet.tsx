@@ -88,7 +88,7 @@ function Tweet({ tweet }: Props) {
   return (
     <div
       key={tweet._id}
-      className="flex flex-col space-x-3 border-y border-gray-100 p-5"
+      className="flex flex-col space-x-3 border-y border-gray-100 p-5 "
     >
       <div className="flex space-x-3">
         <img
@@ -100,7 +100,7 @@ function Tweet({ tweet }: Props) {
         <div>
           <div className="flex items-center space-x-1">
             {/* <p className="mr-1 font-bold">{tweet.username}</p> */}
-            <p className="mr-1 font-bold">anonymous</p>
+            <p className="mr-1 font-bold">🤫</p>
             <p className="hidden text-sm text-gray-500 sm:inline">
               {/* @{tweet.username.replace(/\s+/g, '').toLowerCase()} · */}
               @{"anonymous"} ·
@@ -188,7 +188,7 @@ function Tweet({ tweet }: Props) {
                     @{comment.username.replace(/\s+/g, '').toLowerCase()} ·
                   </p> */}
 
-                  <p className="mr-1 font-bold">anonymous</p>
+                  <p className="mr-1 font-bold">🤫</p>
                   <p className="hidden text-sm text-gray-500 lg:inline">
                     @anonymous
                   </p>
