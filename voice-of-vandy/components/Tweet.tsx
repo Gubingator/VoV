@@ -65,8 +65,9 @@ function Tweet({ tweet }: Props) {
     const commentInfo: CommentBody = {
       comment: input,
       tweetId: tweet._id,
-      username: session?.user?.name || 'Unknown User',
+      username: 'anonymous',
       profileImg: session?.user?.image || 'https://links.papareact.com/gll',
+      // username: session?.user?.name || 'Unknown User',
     }
 
     const result = await fetch(`/api/addComment`, {
@@ -98,7 +99,8 @@ function Tweet({ tweet }: Props) {
 
         <div>
           <div className="flex items-center space-x-1">
-            <p className="mr-1 font-bold">{tweet.username}</p>
+            {/* <p className="mr-1 font-bold">{tweet.username}</p> */}
+            <p className="mr-1 font-bold">anonymous</p>
             <p className="hidden text-sm text-gray-500 sm:inline">
               {/* @{tweet.username.replace(/\s+/g, '').toLowerCase()} · */}
               @{"anonymous"} ·
@@ -181,9 +183,14 @@ function Tweet({ tweet }: Props) {
               />
               <div>
                 <div className="flex items-center space-x-1">
-                  <p className="mr-1 font-bold">{comment.username}</p>
-                  <p className="hidden text-sm text-gray-500 lg:inline">
+                  {/* <p className="mr-1 font-bold">{comment.username}</p> */}
+                  {/* <p className="hidden text-sm text-gray-500 lg:inline">
                     @{comment.username.replace(/\s+/g, '').toLowerCase()} ·
+                  </p> */}
+
+                  <p className="mr-1 font-bold">anonymous</p>
+                  <p className="hidden text-sm text-gray-500 lg:inline">
+                    @anonymous
                   </p>
 
                   <TimeAgo
