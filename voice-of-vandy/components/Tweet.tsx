@@ -3,16 +3,11 @@ import { Comment, CommentBody, Tweet, TweetBody } from '../typings'
 import TimeAgo from 'react-timeago'
 import {
   ChatAlt2Icon,
-  HeartIcon,
-  ArrowDownIcon,
   ThumbUpIcon,
-  ArrowUpIcon,
 } from '@heroicons/react/outline'
 import { useSession } from 'next-auth/react'
 import toast from 'react-hot-toast'
 import { fetchComments } from '../utils/fetchComments'
-import { sanityClient } from '../sanity'
-import { groq } from 'next-sanity'
 
 interface Props {
   tweet: Tweet
@@ -36,16 +31,6 @@ function Tweet({ tweet }: Props) {
       tweet.upvotes += 1;
     }
   }
-
-// Help From: https://stackoverflow.com/questions/64356284/how-to-download-file-from-sanity-via-http
-  // const getUrlFromId = () => { // do not be async! 
-  //   // Example ref: file-207fd9951e759130053d37cf0a558ffe84ddd1c9-mp3
-  //   // We don't need the first part (_file), unless we're using the same function for files and images
-  //   // console.log(tweet.audio?.asset._ref)
-  //   const [_file, id, extension] = tweet.audio?.asset._ref.split('-');
-  //   return `https://cdn.sanity.io/files/3gw0ul7p/production/${id}.${extension}`
-  // }
-
 
   const refreshComments = async () => {
     const dataComments: Comment[] = await fetchComments(tweet._id)
@@ -99,10 +84,8 @@ function Tweet({ tweet }: Props) {
 
         <div>
           <div className="flex items-center space-x-1">
-            {/* <p className="mr-1 font-bold">{tweet.username}</p> */}
             <p className="mr-1 font-bold">🤫</p>
             <p className="hidden text-sm text-gray-500 sm:inline">
-              {/* @{tweet.username.replace(/\s+/g, '').toLowerCase()} · */}
               @{"anonymous"} ·
             </p>
 
@@ -115,8 +98,10 @@ function Tweet({ tweet }: Props) {
           <p className="pt-1">{tweet.text}</p>
 
           {tweet.audio && (
-            <audio controls loop>
-              <source src={tweet.audio}/>
+            <audio controls
+              className='mt-2'>
+              <source 
+                src={tweet.audio}/>
             </audio>
           )}
 
@@ -146,10 +131,6 @@ function Tweet({ tweet }: Props) {
     
           <p>{tweet.upvotes}</p>
         </div>
-        {/* <div className="flex cursor-pointer items-center space-x-3 text-gray-400">
-          <ArrowDownIcon className="h-5 w-5" />
-          <p>12</p>
-        </div> */}
       </div>
 
       {commentBoxVisible && (
@@ -183,11 +164,6 @@ function Tweet({ tweet }: Props) {
               />
               <div>
                 <div className="flex items-center space-x-1">
-                  {/* <p className="mr-1 font-bold">{comment.username}</p> */}
-                  {/* <p className="hidden text-sm text-gray-500 lg:inline">
-                    @{comment.username.replace(/\s+/g, '').toLowerCase()} ·
-                  </p> */}
-
                   <p className="mr-1 font-bold">🤫</p>
                   <p className="hidden text-sm text-gray-500 lg:inline">
                     @anonymous

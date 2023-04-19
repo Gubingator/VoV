@@ -1,19 +1,13 @@
 import { 
-    UploadIcon,
     PhotographIcon, 
     MicrophoneIcon,
 } from '@heroicons/react/outline'
 import { useSession } from 'next-auth/react'
-import React, { Dispatch, SetStateAction, useRef, useState } from 'react'
+import React, { Dispatch, SetStateAction, useRef, useState, useEffect } from 'react'
 import toast from 'react-hot-toast'
 import  { Tweet, TweetBody } from '../typings'
 import { fetchTweets } from '../utils/fetchTweets'
-
-import { v4 as uuidv4 } from 'uuid'
-import { sanityClient } from '../sanity'
-import tweet from '@/sanity/schemas/tweet'
-import { SanityAssetDocument } from '@sanity/client'
-import { useReactMediaRecorder, ReactMediaRecorder } from "react-media-recorder"
+import { useReactMediaRecorder } from "react-media-recorder"
 
 interface Props {
     setTweets: Dispatch<SetStateAction<Tweet[]>>
@@ -28,7 +22,6 @@ const TweetBox = ({ setTweets }: Props) => {
     const [image, setImage] = useState<string>('')
     const imageInputRef = useRef<HTMLInputElement>(null)
     const [initialUpvote, setUpvote] = useState<number>(0)
-    const [fileAssets, setFileAssets] = useState<SanityAssetDocument | undefined>()
     const [isActive, setIsActive] = useState(false);
 
     const addImageToTweet = (e: React.MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
@@ -39,34 +32,6 @@ const TweetBox = ({ setTweets }: Props) => {
         setImage(imageInputRef.current.value);
         imageInputRef.current.value = '';
         setImageUrlBoxIsOpen(false);
-    }
-    const addFileToTweet = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        e.preventDefault();
-        
-        if (!e.target.files) {
-            return
-        }
-
-        const selectedFile = e.target.files[0];
-
-        console.log("selectedFile");
-        console.log(selectedFile);
-        console.log(selectedFile.type);
-        console.log(selectedFile.name);
-
-
-        sanityClient.assets.upload('file', selectedFile)
-        .then((data) => {
-            console.log("00000000000000000000000");
-            console.log(data)
-            setFileAssets(data);
-        } 
-        ).catch((error) => {
-          console.log('Upload failed:', error.message);
-        });
-        
-        console.log("fileAssets");
-        console.log(fileAssets?._id);
     }
 
     function blobToBase64(blob: Blob): Promise<string> {
@@ -120,19 +85,17 @@ const TweetBox = ({ setTweets }: Props) => {
         setInput('')
         setImage('')
         setImageUrlBoxIsOpen(false)
-        // setFileAssets(void)
+        setMicBoxOpen(false)
     }
 
     const {
         startRecording,
         stopRecording,
-        pauseRecording,
         mediaBlobUrl
       } = useReactMediaRecorder({
         video: false,
         audio: true,
       });
-      console.log("url", mediaBlobUrl);
 
   return (
     <div className="flex space-x-2 p-5">
@@ -201,24 +164,15 @@ const TweetBox = ({ setTweets }: Props) => {
                                     startRecording();
                                     console.log('started recording')
                                 } else {
-                                    pauseRecording();
+                                    stopRecording();
+                                    console.log('done recording')
                                 }
                 
                                 setIsActive(!isActive);
                             }}
-                        className="font-bold text-white">{isActive ? "Pause" : "Start Recording"}</button>
-
-                        <button
-                            onClick={() => {
-                                if (isActive) {
-                                    stopRecording();
-                                    console.log('done recording')
-                                }
-                                
-                                setIsActive(false)
-                            }}
-                        className="font-bold text-white">{isActive ? "Stop" : ""}</button>
-                        <audio src={mediaBlobUrl} controls loop />
+                            className="rounded-full bg-MetallicGold px-5 py-2 font-bold text-black disabled:opacity-40 mt-1">
+                            {isActive ? "Stop" : "Start Recording"}</button>
+                        <audio src={mediaBlobUrl} controls/>
                     </div>
                 )}
             </div>
