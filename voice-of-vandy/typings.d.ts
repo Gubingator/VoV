@@ -15,12 +15,6 @@ export type TweetBody = {
     profileImg: string,
     image?: string,
     audio?: string,
-    // {
-    //     asset: {
-    //       _id: string;
-    //       url: string;
-    //     };
-    // };
     upvotes: number,
 }
 

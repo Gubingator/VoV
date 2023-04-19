@@ -7,7 +7,8 @@ import { signIn, signOut, useSession } from 'next-auth/react'
 
 function Sidebar() {
     const {data: session} = useSession();
-    const names = ['Meek Mill', 'Spongebob', 'Perry the Platypus, Drake, Nicki Minaj, Jason Derulo, Ariana Grande'];
+    const names = ['John Cena', 'Spongebob', 'Perry the Platypus', 'Drake', 'Nicki Minaj', 'Jason Derulo', 'Ariana Grande',
+                   'Morgan Freeman', 'Barack Obama', 'Donald Trump', 'Joe Biden'];
 
   return (
     <div className = "col-span-2 items-center">
