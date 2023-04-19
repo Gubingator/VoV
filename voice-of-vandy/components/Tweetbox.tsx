@@ -88,6 +88,7 @@ const TweetBox = ({ setTweets }: Props) => {
         base64data = await blobToBase64(mediaBlob);
 
         const tweetInfo: TweetBody = {
+            
             text: input,
             username: session?.user?.name || 'Unknown User',
             profileImg: session?.user?.image || 'https://links.papareact.com/gll',
@@ -131,6 +132,7 @@ const TweetBox = ({ setTweets }: Props) => {
         video: false,
         audio: true,
       });
+      console.log("url", mediaBlobUrl);
 
   return (
     <div className="flex space-x-2 p-5">
@@ -155,7 +157,6 @@ const TweetBox = ({ setTweets }: Props) => {
                             onClick={ () => setImageUrlBoxIsOpen(!imageUrlBoxIsOpen) }
                             className="h-7 w-7 cursor-pointer transition-transform duration-150 ease-out hover:scale-150" 
                         />
-
                         <MicrophoneIcon 
                             className="h-7 w-7 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
                             onClick={ () => setMicBoxOpen(!micBoxIsOpen) }
