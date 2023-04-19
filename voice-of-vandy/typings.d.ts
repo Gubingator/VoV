@@ -14,14 +14,13 @@ export type TweetBody = {
     username: string,
     profileImg: string,
     image?: string,
-    audio?: any,
+    audio?: string,
     // {
     //     asset: {
     //       _id: string;
     //       url: string;
     //     };
-    //   };
-    fileURL?: string,
+    // };
     upvotes: number,
 }
 

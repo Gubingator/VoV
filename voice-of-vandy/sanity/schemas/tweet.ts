@@ -31,8 +31,8 @@ export default {
     },
     {
       name: 'audio',
-      title: 'Tweet audio file',
-      type: 'file',
+      title: 'Tweet audio string',
+      type: 'string',
     },
     {
       name: 'upvotes',

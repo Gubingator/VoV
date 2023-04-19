@@ -17,7 +17,7 @@ const Home = ({ tweets }: Props) => {
   // console.log({tweets})
   
   return (
-    <div className="mx-auto max-h-screen overflow-hidden lg:max-w-6xl bg-black">
+    <div className="mx-auto max-h-screen overflow-hidden lg:max-w-8xl bg-black">
       <Head>
         <title>Voice of Vandy</title>
         <link rel="icon" href="/favicon.ico" />
@@ -25,7 +25,7 @@ const Home = ({ tweets }: Props) => {
 
       <Toaster/>
 
-      <Navbar/>
+      {/* <Navbar/> */}
 
       <main className= "grid grid-cols-10">
         <Sidebar/>

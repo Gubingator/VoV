@@ -13,6 +13,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { sanityClient } from '../sanity'
 import tweet from '@/sanity/schemas/tweet'
 import { SanityAssetDocument } from '@sanity/client'
+import { useReactMediaRecorder, ReactMediaRecorder } from "react-media-recorder"
 
 interface Props {
     setTweets: Dispatch<SetStateAction<Tweet[]>>
@@ -23,15 +24,12 @@ const TweetBox = ({ setTweets }: Props) => {
     const [input, setInput] = useState<string>('')
     const { data: session } = useSession()
     const [imageUrlBoxIsOpen, setImageUrlBoxIsOpen] = useState<boolean>(false)
+    const [micBoxIsOpen, setMicBoxOpen] = useState<boolean>(false)
     const [image, setImage] = useState<string>('')
     const imageInputRef = useRef<HTMLInputElement>(null)
-
     const [initialUpvote, setUpvote] = useState<number>(0)
-    
-    const [uploadBoxIsOpen, setUploadBoxIsOpen] = useState<boolean>(false)
     const [fileAssets, setFileAssets] = useState<SanityAssetDocument | undefined>()
-    const [wrongFileType, setWrongFileType] = useState(false)
-
+    const [isActive, setIsActive] = useState(false);
 
     const addImageToTweet = (e: React.MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
         e.preventDefault();
@@ -42,7 +40,6 @@ const TweetBox = ({ setTweets }: Props) => {
         imageInputRef.current.value = '';
         setImageUrlBoxIsOpen(false);
     }
-    //const addFileToTweet = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const addFileToTweet = async (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
         
@@ -57,7 +54,6 @@ const TweetBox = ({ setTweets }: Props) => {
         console.log(selectedFile.type);
         console.log(selectedFile.name);
 
-        // sanityClient.assets.upload('file', selectedFile, { contentType: selectedFile.type, filename: selectedFile.name })
 
         sanityClient.assets.upload('file', selectedFile)
         .then((data) => {
@@ -71,46 +67,33 @@ const TweetBox = ({ setTweets }: Props) => {
         
         console.log("fileAssets");
         console.log(fileAssets?._id);
-
-        // setUploadBoxIsOpen(false)
-
-        
-        // sanityClient.assets
-        // .upload('file', fileToUpload)
-        // .then((document) => {
-        //     console.log("---------------------")
-        //     // console.log(document._id)
-        //     setFileAssets({ document}
-        //     );
-        
-        // })
-        // .catch((error) => {
-        //   console.log('Upload failed:', error.message);
-        // });
-
-        // const doc = {
-        //       _type: 'file',
-        //       asset: {
-        //         _type: 'reference',
-        //         _ref: document?._id,
-        //       },
-        //   };
-
     }
 
+    function blobToBase64(blob: Blob): Promise<string> {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.readAsDataURL(blob);
+          reader.onloadend = () => {
+            const base64data = reader.result;
+            resolve(base64data);
+          };
+          reader.onerror = reject;
+        });
+      }
 
     const postTweet = async () => {
+        var base64data = null;
+        let mediaBlob = await fetch(mediaBlobUrl!).then(r => r.blob());
+
+        base64data = await blobToBase64(mediaBlob);
+
         const tweetInfo: TweetBody = {
             text: input,
             username: session?.user?.name || 'Unknown User',
             profileImg: session?.user?.image || 'https://links.papareact.com/gll',
             image: image,
-            //audio: {_type: 'file', asset: {fileAssets} }, 
-            // audio: {
-            //     _id: fileAssets?._id,
-            //     url: fileAssets?.path,
-            // },
-            upvotes: 0,
+            audio: base64data,
+            upvotes: initialUpvote,
         }
 
         const result = await fetch(`/api/addTweet`, {
@@ -132,24 +115,25 @@ const TweetBox = ({ setTweets }: Props) => {
 
     const handleSubmit = (e:any) => {
         e.preventDefault();
-
         postTweet();
-
         setInput('')
         setImage('')
         setImageUrlBoxIsOpen(false)
-
         // setFileAssets(void)
-        setUploadBoxIsOpen(false)
     }
 
-    function getUrlFromId(): string | undefined {
-        throw new Error('Function not implemented.')
-    }
+    const {
+        startRecording,
+        stopRecording,
+        pauseRecording,
+        mediaBlobUrl
+      } = useReactMediaRecorder({
+        video: false,
+        audio: true,
+      });
 
   return (
     <div className="flex space-x-2 p-5">
-        
         <img 
             className="h-14 w-14 mt-4 rounded-full object-cover"
             src={ session?.user?.image || 'https://links.papareact.com/gll'} 
@@ -157,13 +141,13 @@ const TweetBox = ({ setTweets }: Props) => {
         />
 
         <div className="flex flex-1 items-center pl-2">
-            <form className="flex flex-1 flex-col">
+            <div className="flex flex-1 flex-col">
                 <input 
                     type="text" 
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
-                    placeholder="Voice Something..." 
-                    className="h-24 w-full rounded-md text-xl outline-none placeholder:text-xl p-2 pl-5" 
+                    placeholder="Voice something..." 
+                    className="h-24 w-full rounded-md text-s outline-none break-normal placeholder:text-xl p-2 pl-5" 
                 />
                 <div className="flex items-center">
                     <div className="flex flex-1 space-x-2 text-FlatGold">
@@ -171,13 +155,10 @@ const TweetBox = ({ setTweets }: Props) => {
                             onClick={ () => setImageUrlBoxIsOpen(!imageUrlBoxIsOpen) }
                             className="h-7 w-7 cursor-pointer transition-transform duration-150 ease-out hover:scale-150" 
                         />
-                        <UploadIcon 
-                            className="h-7 w-7 cursor-pointer transition-transform duration-150 ease-out hover:scale-150" 
-                            onClick={ () => setUploadBoxIsOpen(!uploadBoxIsOpen) }
-                        />
+
                         <MicrophoneIcon 
-                            className="h-7 w-7 cursor-pointer transition-transform duration-150 ease-out hover:scale-150" 
-                            
+                            className="h-7 w-7 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
+                            onClick={ () => setMicBoxOpen(!micBoxIsOpen) }
                         />
                     </div>
                     <button 
@@ -191,7 +172,7 @@ const TweetBox = ({ setTweets }: Props) => {
 
                 {/* Image adding form  */}
                 { imageUrlBoxIsOpen && (
-                    <form className="rounded-lg mt-5 flex bg-MetallicGold/60 py-2 px-4">
+                    <div className="rounded-lg mt-5 flex bg-MetallicGold/60 py-2 px-4">
                         <input 
                             ref={imageInputRef}
                             type="text" 
@@ -199,7 +180,7 @@ const TweetBox = ({ setTweets }: Props) => {
                             placeholder="Enter Image URL..." 
                         />
                         <button type="submit" onClick={addImageToTweet} className="font-bold text-white">Add Image</button>
-                    </form>
+                    </div>
                 )}
 
                 {/* Image show after adding */}
@@ -211,29 +192,36 @@ const TweetBox = ({ setTweets }: Props) => {
                     />
                 )}
 
-                {/* File adding form  */}
-                { uploadBoxIsOpen && (
-                    <form className="rounded-lg mt-5 flex bg-MetallicGold/60 py-2 px-4">
-                        <input 
-                            type= "file" 
-                            className="flex-1 2 text-white bg-transparent outline-none placeholder:text-white"
-                            onChange={addFileToTweet}
-                        />
-                        {/* <button type="submit" onClick={e => addFileToTweet} className="font-bold text-white">Upload</button> */}
-                    </form>
-                )}
+                { micBoxIsOpen && (
+                    <div className="rounded-lg mt-5 flex justify-between bg-MetallicGold/60 py-2 px-4">
+                        <button
+                            onClick={() => {
+                                if (!isActive) {
+                                    startRecording();
+                                    console.log('started recording')
+                                } else {
+                                    pauseRecording();
+                                }
+                
+                                setIsActive(!isActive);
+                            }}
+                        className="font-bold text-white">{isActive ? "Pause" : "Start Recording"}</button>
 
-                {/* File show after adding */}
-                { fileAssets && (
-                    <audio controls>
-                        <source src= {getUrlFromId()} type="audio/mpeg"/>
-                    </audio>
+                        <button
+                            onClick={() => {
+                                if (isActive) {
+                                    stopRecording();
+                                    console.log('done recording')
+                                }
+                                
+                                setIsActive(false)
+                            }}
+                        className="font-bold text-white">{isActive ? "Stop" : ""}</button>
+                        <audio src={mediaBlobUrl} controls loop />
+                    </div>
                 )}
-
-            </form>
+            </div>
         </div>
-
-
     </div>
   )
 }

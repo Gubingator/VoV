@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Comment, CommentBody, Tweet } from '../typings'
+import { Comment, CommentBody, Tweet, TweetBody } from '../typings'
 import TimeAgo from 'react-timeago'
 import {
   ChatAlt2Icon,
@@ -38,13 +38,13 @@ function Tweet({ tweet }: Props) {
   }
 
 // Help From: https://stackoverflow.com/questions/64356284/how-to-download-file-from-sanity-via-http
-  const getUrlFromId = () => { // do not be async! 
-    // Example ref: file-207fd9951e759130053d37cf0a558ffe84ddd1c9-mp3
-    // We don't need the first part (_file), unless we're using the same function for files and images
-    // console.log(tweet.audio?.asset._ref)
-    const [_file, id, extension] = tweet.audio?.asset._ref.split('-');
-    return `https://cdn.sanity.io/files/3gw0ul7p/production/${id}.${extension}`
-  }
+  // const getUrlFromId = () => { // do not be async! 
+  //   // Example ref: file-207fd9951e759130053d37cf0a558ffe84ddd1c9-mp3
+  //   // We don't need the first part (_file), unless we're using the same function for files and images
+  //   // console.log(tweet.audio?.asset._ref)
+  //   const [_file, id, extension] = tweet.audio?.asset._ref.split('-');
+  //   return `https://cdn.sanity.io/files/3gw0ul7p/production/${id}.${extension}`
+  // }
 
 
   const refreshComments = async () => {
@@ -65,8 +65,9 @@ function Tweet({ tweet }: Props) {
     const commentInfo: CommentBody = {
       comment: input,
       tweetId: tweet._id,
-      username: session?.user?.name || 'Unknown User',
+      username: 'anonymous',
       profileImg: session?.user?.image || 'https://links.papareact.com/gll',
+      // username: session?.user?.name || 'Unknown User',
     }
 
     const result = await fetch(`/api/addComment`, {
@@ -87,7 +88,7 @@ function Tweet({ tweet }: Props) {
   return (
     <div
       key={tweet._id}
-      className="flex flex-col space-x-3 border-y border-gray-100 p-5"
+      className="flex flex-col space-x-3 border-y border-gray-100 p-5 "
     >
       <div className="flex space-x-3">
         <img
@@ -98,7 +99,8 @@ function Tweet({ tweet }: Props) {
 
         <div>
           <div className="flex items-center space-x-1">
-            <p className="mr-1 font-bold">{tweet.username}</p>
+            {/* <p className="mr-1 font-bold">{tweet.username}</p> */}
+            <p className="mr-1 font-bold">🤫</p>
             <p className="hidden text-sm text-gray-500 sm:inline">
               {/* @{tweet.username.replace(/\s+/g, '').toLowerCase()} · */}
               @{"anonymous"} ·
@@ -113,8 +115,8 @@ function Tweet({ tweet }: Props) {
           <p className="pt-1">{tweet.text}</p>
 
           {tweet.audio && (
-            <audio controls>
-              <source src= {getUrlFromId()} type="audio/mpeg"/>
+            <audio controls loop>
+              <source src={tweet.audio}/>
             </audio>
           )}
 
@@ -181,9 +183,14 @@ function Tweet({ tweet }: Props) {
               />
               <div>
                 <div className="flex items-center space-x-1">
-                  <p className="mr-1 font-bold">{comment.username}</p>
-                  <p className="hidden text-sm text-gray-500 lg:inline">
+                  {/* <p className="mr-1 font-bold">{comment.username}</p> */}
+                  {/* <p className="hidden text-sm text-gray-500 lg:inline">
                     @{comment.username.replace(/\s+/g, '').toLowerCase()} ·
+                  </p> */}
+
+                  <p className="mr-1 font-bold">🤫</p>
+                  <p className="hidden text-sm text-gray-500 lg:inline">
+                    @anonymous
                   </p>
 
                   <TimeAgo
