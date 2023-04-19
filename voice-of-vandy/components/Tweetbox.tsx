@@ -39,7 +39,7 @@ const TweetBox = ({ setTweets }: Props) => {
           const reader = new FileReader();
           reader.readAsDataURL(blob);
           reader.onloadend = () => {
-            const base64data = reader.result;
+            const base64data = reader.result as string;
             resolve(base64data);
           };
           reader.onerror = reject;
@@ -175,7 +175,7 @@ const TweetBox = ({ setTweets }: Props) => {
                             }}
                             className="rounded-full bg-MetallicGold px-5 py-2 font-bold text-black disabled:opacity-40 mt-1">
                             {isActive ? "Stop" : "Start Recording"}</button>
-                        <audio src={mediaBlobUrl} controls/>
+                        <audio src={mediaBlobUrl as string} controls/>
                     </div>
                 )}
             </div>
