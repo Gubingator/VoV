@@ -14,9 +14,7 @@ interface Props {
 }
 
 const TweetBox = ({ setTweets }: Props) => {
-    const emptyVoice = 'data:text/html;base64,PCFET0NUWVBFIGh0bWw+PGh0bWwgbGFuZz0iZW4iPjxoZWFkPjxzdHlsZSBkYXRhLW5leHQtaGlkZS1mb3VjPSJ0cnVlIj5ib2R5e2Rpc3BsYXk6bm9uZX08L3N0eWxlPjxub3NjcmlwdCBkYXRhLW5leHQtaGlkZS1mb3VjPSJ0cnVlIj48c3R5bGU+Ym9keXtkaXNwbGF5OmJsb2NrfTwvc3R5bGU+PC9ub3NjcmlwdD48bWV0YSBjaGFyU2V0PSJ1dGYtOCIvPjxtZXRhIG5hbWU9InZpZXdwb3J0IiBjb250ZW50PSJ3aWR0aD1kZXZpY2Utd2lkdGgiLz48dGl0bGU+NDA0OiBUaGlzIHBhZ2UgY291bGQgbm90IGJlIGZvdW5kPC90aXRsZT48bWV0YSBuYW1lPSJuZXh0LWhlYWQtY291bnQiIGNvbnRlbnQ9IjMiLz48bm9zY3JpcHQgZGF0YS1uLWNzcz0iIj48L25vc2NyaXB0PjxzY3JpcHQgZGVmZXI9IiIgbm9tb2R1bGU9IiIgc3JjPSIvX25leHQvc3RhdGljL2NodW5rcy9wb2x5ZmlsbHMuanM/dHM9MTY4MTkzMDAyNjc3OSI+PC9zY3JpcHQ+PHNjcmlwdCBzcmM9Ii9fbmV4dC9zdGF0aWMvY2h1bmtzL3dlYnBhY2suanM/dHM9MTY4MTkzMDAyNjc3OSIgZGVmZXI9IiI+PC9zY3JpcHQ+PHNjcmlwdCBzcmM9Ii9fbmV4dC9zdGF0aWMvY2h1bmtzL21haW4uanM/dHM9MTY4MTkzMDAyNjc3OSIgZGVmZXI9IiI+PC9zY3JpcHQ+PHNjcmlwdCBzcmM9Ii9fbmV4dC9zdGF0aWMvY2h1bmtzL3BhZ2VzL19hcHAuanM/dHM9MTY4MTkzMDAyNjc3OSIgZGVmZXI9IiI+PC9zY3JpcHQ+PHNjcmlwdCBzcmM9Ii9fbmV4dC9zdGF0aWMvY2h1bmtzL3BhZ2VzL19lcnJvci5qcz90cz0xNjgxOTMwMDI2Nzc5IiBkZWZlcj0iIj48L3NjcmlwdD48c2NyaXB0IHNyYz0iL19uZXh0L3N0YXRpYy9kZXZlbG9wbWVudC9fYnVpbGRNYW5pZmVzdC5qcz90cz0xNjgxOTMwMDI2Nzc5IiBkZWZlcj0iIj48L3NjcmlwdD48c2NyaXB0IHNyYz0iL19uZXh0L3N0YXRpYy9kZXZlbG9wbWVudC9fc3NnTWFuaWZlc3QuanM/dHM9MTY4MTkzMDAyNjc3OSIgZGVmZXI9IiI+PC9zY3JpcHQ+PG5vc2NyaXB0IGlkPSJfX25leHRfY3NzX19ET19OT1RfVVNFX18iPjwvbm9zY3JpcHQ+PC9oZWFkPjxib2R5PjxkaXYgaWQ9Il9fbmV4dCI+PGRpdiBzdHlsZT0iZm9udC1mYW1pbHk6LWFwcGxlLXN5c3RlbSwgQmxpbmtNYWNTeXN0ZW1Gb250LCBSb2JvdG8sICZxdW90O1NlZ29lIFVJJnF1b3Q7LCAmcXVvdDtGaXJhIFNhbnMmcXVvdDssIEF2ZW5pciwgJnF1b3Q7SGVsdmV0aWNhIE5ldWUmcXVvdDssICZxdW90O0x1Y2lkYSBHcmFuZGUmcXVvdDssIHNhbnMtc2VyaWY7aGVpZ2h0OjEwMHZoO3RleHQtYWxpZ246Y2VudGVyO2Rpc3BsYXk6ZmxleDtmbGV4LWRpcmVjdGlvbjpjb2x1bW47YWxpZ24taXRlbXM6Y2VudGVyO2p1c3RpZnktY29udGVudDpjZW50ZXIiPjxkaXY+PHN0eWxlPgogICAgICAgICAgICAgICAgYm9keSB7IG1hcmdpbjogMDsgY29sb3I6ICMwMDA7IGJhY2tncm91bmQ6ICNmZmY7IH0KICAgICAgICAgICAgICAgIC5uZXh0LWVycm9yLWgxIHsKICAgICAgICAgICAgICAgICAgYm9yZGVyLXJpZ2h0OiAxcHggc29saWQgcmdiYSgwLCAwLCAwLCAuMyk7CiAgICAgICAgICAgICAgICB9CgogICAgICAgICAgICAgICAgQG1lZGlhIChwcmVmZXJzLWNvbG9yLXNjaGVtZTogZGFyaykgewogICAgICAgICAgICAgICAgICBib2R5IHsgY29sb3I6ICNmZmY7IGJhY2tncm91bmQ6ICMwMDA7IH0KICAgICAgICAgICAgICAgICAgLm5leHQtZXJyb3ItaDEgewogICAgICAgICAgICAgICAgICAgIGJvcmRlci1yaWdodDogMXB4IHNvbGlkIHJnYmEoMjU1LCAyNTUsIDI1NSwgLjMpOwogICAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgICAgICB9PC9zdHlsZT48aDEgY2xhc3M9Im5leHQtZXJyb3ItaDEiIHN0eWxlPSJkaXNwbGF5OmlubGluZS1ibG9jazttYXJnaW46MDttYXJnaW4tcmlnaHQ6MjBweDtwYWRkaW5nOjAgMjNweCAwIDA7Zm9udC1zaXplOjI0cHg7Zm9udC13ZWlnaHQ6NTAwO3ZlcnRpY2FsLWFsaWduOnRvcDtsaW5lLWhlaWdodDo0OXB4Ij40MDQ8L2gxPjxkaXYgc3R5bGU9ImRpc3BsYXk6aW5saW5lLWJsb2NrO3RleHQtYWxpZ246bGVmdDtsaW5lLWhlaWdodDo0OXB4O2hlaWdodDo0OXB4O3ZlcnRpY2FsLWFsaWduOm1pZGRsZSI+PGgyIHN0eWxlPSJmb250LXNpemU6MTRweDtmb250LXdlaWdodDpub3JtYWw7bGluZS1oZWlnaHQ6NDlweDttYXJnaW46MDtwYWRkaW5nOjAiPlRoaXMgcGFnZSBjb3VsZCBub3QgYmUgZm91bmQ8IS0tIC0tPi48L2gyPjwvZGl2PjwvZGl2PjwvZGl2PjwvZGl2PjxzY3JpcHQgc3JjPSIvX25leHQvc3RhdGljL2NodW5rcy9yZWFjdC1yZWZyZXNoLmpzP3RzPTE2ODE5MzAwMjY3NzkiPjwvc2NyaXB0PjxzY3JpcHQgaWQ9Il9fTkVYVF9EQVRBX18iIHR5cGU9ImFwcGxpY2F0aW9uL2pzb24iPnsicHJvcHMiOnsicGFnZVByb3BzIjp7InN0YXR1c0NvZGUiOjQwNH19LCJwYWdlIjoiL19lcnJvciIsInF1ZXJ5Ijp7fSwiYnVpbGRJZCI6ImRldmVsb3BtZW50IiwiaXNGYWxsYmFjayI6ZmFsc2UsImdpcCI6dHJ1ZSwic2NyaXB0TG9hZGVyIjpbXX08L3NjcmlwdD48L2JvZHk+PC9odG1sPg=='
     const [input, setInput] = useState<string>('')
-    const [base64Audio, setBase64Audio] = useState<string>('') // audio store variable
     const { data: session } = useSession()
     const [imageUrlBoxIsOpen, setImageUrlBoxIsOpen] = useState<boolean>(false)
     const [micBoxIsOpen, setMicBoxOpen] = useState<boolean>(false)
@@ -49,10 +47,10 @@ const TweetBox = ({ setTweets }: Props) => {
 
     const postTweet = async () => {
         let mediaBlob = await fetch(mediaBlobUrl!).then(r => r.blob());
-        setBase64Audio( await blobToBase64(mediaBlob) )
+        let base64data = await blobToBase64(mediaBlob);
 
-        if (base64Audio.substring(5,14) === 'text/html') {
-            setBase64Audio('')
+        if (base64data.substring(5,14) === 'text/html') {
+            base64data = '';
         }
         console.log('audio turned into base64 here')
         // console.log(base64data) too big to console log 
@@ -62,7 +60,7 @@ const TweetBox = ({ setTweets }: Props) => {
             username: session?.user?.name || 'Unknown User',
             profileImg: session?.user?.image || 'https://links.papareact.com/gll',
             image: image,
-            audio: base64Audio,
+            audio: base64data,
             upvotes: initialUpvote,
         }
 
@@ -88,7 +86,7 @@ const TweetBox = ({ setTweets }: Props) => {
         postTweet();
         setInput('')
         setImage('')
-        setBase64Audio('') // This is needed or else every submit after an audio submit will include the same audio file from before
+        // prob need to setAudio also to null, but idk how
         setImageUrlBoxIsOpen(false)
         setMicBoxOpen(false)
     }
