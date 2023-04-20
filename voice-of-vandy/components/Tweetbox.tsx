@@ -50,11 +50,12 @@ const TweetBox = ({ setTweets }: Props) => {
         let mediaBlob = await fetch(mediaBlobUrl!).then(r => r.blob());
         let base64data = await blobToBase64(mediaBlob);
 
-        if (base64data.length == emptyVoice.length) {
+        // if (base64data.length == emptyVoice.length) {
+        if (base64data.substring(5,14) === 'text/html') {
             base64data = '';
         }
-        console.log('here')
-        console.log(base64data)
+        console.log('audio turned into base64 here')
+        // console.log(base64data) too big to console log 
 
         const tweetInfo: TweetBody = {
             text: input,
@@ -75,7 +76,7 @@ const TweetBox = ({ setTweets }: Props) => {
         const newTweets = await fetchTweets()
         setTweets(newTweets)
 
-        toast('Tweet Posted', {
+        toast('Voice Posted', {
             icon: '🎉',
         })
 
